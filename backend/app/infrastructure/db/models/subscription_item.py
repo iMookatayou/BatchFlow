@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from sqlalchemy import ForeignKey, Index, UniqueConstraint
+from sqlalchemy import ForeignKey, Index, UniqueConstraint, String  # ✅ add String
 from sqlalchemy.dialects import mysql
 from sqlalchemy.dialects.mysql import BIGINT, INTEGER, TINYINT
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -42,6 +42,9 @@ class SubscriptionItem(Base):
     )
 
     quantity: Mapped[int] = mapped_column(INTEGER, nullable=False)
+
+    unit_amount: Mapped[int] = mapped_column(BIGINT, nullable=False, server_default="0")
+    currency: Mapped[str] = mapped_column(String(3), nullable=False, server_default="THB")
 
     is_active: Mapped[int] = mapped_column(TINYINT(1), nullable=False, server_default="1")
 
