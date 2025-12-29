@@ -40,3 +40,33 @@ def run_generate_orders(
         offset += page_size
 
     return {"delivery_date": delivery_date.isoformat(), "created": created, "existing": existing}
+
+
+def main() -> None:
+    """
+    CLI entrypoint for dev/ops/CI.
+
+    Usage:
+      python -m app.jobs.tasks.generate_orders 2025-12-29
+      python -m app.jobs.tasks.generate_orders   # defaults to today's date
+    """
+    import sys
+
+    from app.dependencies import get_db_session
+
+    if len(sys.argv) >= 2:
+        delivery_date = date.fromisoformat(sys.argv[1])
+    else:
+        delivery_date = date.today()
+
+    def uow_factory() -> UnitOfWork:
+        # get_db_session() is a generator dependency; grab one session per UoW
+        db = next(get_db_session())
+        return UnitOfWork(session=db)
+
+    result = run_generate_orders(uow_factory=uow_factory, delivery_date=delivery_date)
+    print(f"[generate_orders] {result}")
+
+
+if __name__ == "__main__":
+    main()

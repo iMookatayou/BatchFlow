@@ -2,17 +2,19 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  bash curl \
-  && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    default-mysql-client \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY pyproject.toml /app/pyproject.toml
+COPY pyproject.toml ./
+COPY README.md ./
 
-RUN pip install --no-cache-dir -U pip \
-  && pip install --no-cache-dir .
+RUN pip install --upgrade pip \
+    && pip install cryptography \
+    && pip install -e .
 
-COPY . /app
-
-RUN chmod +x /app/scripts/*.sh
+COPY . .
 
 EXPOSE 8000

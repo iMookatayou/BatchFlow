@@ -32,3 +32,13 @@ source .venv/bin/activate
 
 pip install -U pip
 pip install -e ".[dev]"
+
+## 🐳 Local Development with Docker
+
+### Requirements
+- Docker
+- Docker Compose
+
+### Start backend + database
+```bash
+docker compose up --build

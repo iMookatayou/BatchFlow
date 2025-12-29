@@ -1,20 +1,28 @@
 from __future__ import annotations
 
-from pydantic import BaseSettings, Field
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     app_name: str = Field(default="BatchFlow")
     environment: str = Field(default="local")  # local/staging/prod
-    database_url: str = Field(..., env="DATABASE_URL")  # mysql+pymysql://user:pass@host/db
+
+    database_url: str = Field(
+        ...,
+        validation_alias="DATABASE_URL",
+        description="mysql+pymysql://user:pass@host/db",
+    )
 
     # API hardening
-    rate_limit_enabled: bool = Field(default=False, env="RATE_LIMIT_ENABLED")
-    rate_limit_rpm: int = Field(default=120, env="RATE_LIMIT_RPM")
+    rate_limit_enabled: bool = Field(default=False, validation_alias="RATE_LIMIT_ENABLED")
+    rate_limit_rpm: int = Field(default=120, validation_alias="RATE_LIMIT_RPM")
 
-    class Config:
-        env_file = ".env"
-        case_sensitive = False
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        case_sensitive=False,
+        extra="ignore",
+    )
 
 
 settings = Settings()
