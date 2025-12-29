@@ -11,10 +11,9 @@ from app.repositories.interfaces.subscription_repo import SubscriptionRepo
 from app.repositories.interfaces.order_repo import OrderRepo
 from app.repositories.interfaces.delivery_batch_repo import DeliveryBatchRepo
 
-from app.infrastructure.repos_sqlalchemy.subscription_repo import SqlAlchemySubscriptionRepo
-from app.infrastructure.repos_sqlalchemy.order_repo import SqlAlchemyOrderRepo
-from app.infrastructure.repos_sqlalchemy.delivery_batch_repo import SqlAlchemyDeliveryBatchRepo
-
+from app.infrastructure.db.repos_sqlalchemy.subscription_repo import SqlAlchemySubscriptionRepo
+from app.infrastructure.db.repos_sqlalchemy.order_repo import SqlAlchemyOrderRepo
+from app.infrastructure.db.repos_sqlalchemy.delivery_batch_repo import SqlAlchemyDeliveryBatchRepo
 
 @dataclass
 class UnitOfWork(AbstractContextManager):

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import Callable
+from typing import Callable, Optional
 
 from app.services.unit_of_work import UnitOfWork
 from app.services.delivery_batch_service import DeliveryBatchService
@@ -11,8 +11,11 @@ from app.services.delivery_batch_service import DeliveryBatchService
 def run_lock_batches(
     uow_factory: Callable[[], UnitOfWork],
     delivery_date: date,
-    now: datetime,
+    now: Optional[datetime] = None,
 ) -> dict:
+    if now is None:
+        now = datetime.utcnow()
+
     uow = uow_factory()
     svc = DeliveryBatchService(uow)
 

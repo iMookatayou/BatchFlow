@@ -40,7 +40,8 @@ def db_session(engine):
         yield session
     finally:
         session.close()
-        trans.rollback()
+        if trans.is_active:   
+            trans.rollback()
         connection.close()
 
 
