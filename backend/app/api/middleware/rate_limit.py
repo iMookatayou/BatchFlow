@@ -23,7 +23,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         super().__init__(app)
         self.enabled = enabled
         self.rpm = requests_per_minute
-        self._store: dict[str, tuple[int, float]] = {}  # key -> (count, window_start)
+        self._store: dict[str, tuple[int, float]] = {}  
 
     def _key(self, request: Request) -> str:
         # prefer user id header if present else ip
