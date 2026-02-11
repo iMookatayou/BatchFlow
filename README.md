@@ -1,2 +1,1 @@
-# BatchFlow Project
-Full-stack batch processing application
+Coming Soon
